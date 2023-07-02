@@ -34,10 +34,7 @@ class QuantumState:
         masks = self.mask_vec(qubits)
         qsize = 1
 
-        indices = []
-
-        for i in range(self._dim >> qsize):
-            indices.append(self.indices_vec(i, qubits, masks))
+        indices = [self.indices_vec(i, qubits, masks) for i in range(self._dim >> qsize)]
 
         # indices.shape is (self._dim >> qsize, 2)
         indices = cp.asarray(indices)
