@@ -14,6 +14,7 @@ MAX_COUNT = 1000
 DEPTH = 10
 N = 4
 
+
 def execute(n: int, batch_size: int):
     state = QuantumState(n, batch_size)
     circuit = QuantumCircuit(n)
@@ -26,16 +27,18 @@ def execute(n: int, batch_size: int):
     #print(circuit)
     #print(state._vector)
 
+
 def main():
-    #batch_size = [1, 10, 100, 1000]
-    #batch_size = [100, 1000, 10000]
-    batch_size = [10, 100, 1000]
+    # batch_size = [1, 10, 100, 1000]
+    # batch_size = [100, 1000, 10000]
+    # batch_size = [10, 100, 1000]
+    batch_size = [1000]
     for b in batch_size:
-        #print(f"batch_size: {b}")
+        print(f"batch_size: {b}")
         start = time.time()
         cnt = MAX_COUNT // b
         for c in range(cnt):
-            #print("counter:", c)
+            print("counter:", c)
             execute(N, b)
         print(f"batch_size: {b}, {time.time() - start}")
         #print(time.time() - start)
@@ -45,4 +48,3 @@ main()
 
 # TODO:
 # QuantumStateは、QuantumCircuit内に持たせた方がよいかも。
-
