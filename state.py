@@ -34,16 +34,21 @@ class QuantumState:
         masks = self.mask_vec(qubits)
         qsize = 1
 
+        indices = []
+
         for i in range(self._dim >> qsize):
-            indices = self.indices_vec(i, qubits, masks)
-            indices = cp.asarray(indices)
+            indices.append(self.indices_vec(i, qubits, masks))
 
-            values = self._vector[:, indices]
-            matrixs = cp.tile(matrix, (self._batch_size, 1, 1))
+        # indices.shape is (self._dim >> qsize, 2)
+        indices = cp.asarray(indices)
 
-            new_values = cp.einsum("ijk, ij->ik", matrixs, values)
+        # values.shape is (self._bach_size, self._dim >> qsize, 2)
+        values = self._vector[:, indices]
 
-            self._vector[:, indices] = new_values
+        # new_values.shape is (self._bach_size, self._dim >> qsize, 2)
+        new_values = cp.einsum("kl,ijl->ijk", matrix, values)
+
+        self._vector[:, indices] = new_values
 
         RangePop()
 

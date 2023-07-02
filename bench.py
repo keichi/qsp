@@ -10,9 +10,9 @@ from state import QuantumState
 from gate import RXGate
 from circuit import QuantumCircuit
 
-MAX_COUNT = 1000
+MAX_COUNT = 10000
 DEPTH = 10
-N = 4
+N = 8
 
 
 def execute(n: int, batch_size: int):
@@ -32,8 +32,12 @@ def main():
     # batch_size = [1, 10, 100, 1000]
     # batch_size = [100, 1000, 10000]
     # batch_size = [10, 100, 1000]
-    batch_size = [1000]
+    batch_size = [10000]
+
     for b in batch_size:
+        # Warm up run
+        execute(N, b)
+
         print(f"batch_size: {b}")
         start = time.time()
         cnt = MAX_COUNT // b
